@@ -1,0 +1,64 @@
+<!-- include header -->
+<%- include('partials/header', { currentPage: 'dashboard' , user: user }) %>
+
+  <!-- Breadcrumb -->
+  <ol class="ms-3 flex items-center whitespace-nowrap">
+    <li class="flex items-center text-sm text-gray-800 dark:text-neutral-400">
+      Dashboard
+      <svg class="shrink-0 mx-3 overflow-visible size-2.5 text-gray-400 dark:text-neutral-500" width="16" height="16"
+        viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 1L10.6869 7.16086C10.8637 7.35239 10.8637 7.64761 10.6869 7.83914L5 14" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </li>
+    <li class="text-sm font-semibold text-gray-800 truncate dark:text-neutral-400" aria-current="page">
+      Home
+    </li>
+  </ol>
+  <!-- End Breadcrumb -->
+  </div>
+  </div>
+  <!-- End Breadcrumb -->
+
+  <!-- include sidebar -->
+  <%- include('partials/sidebar') %>
+
+    <!-- Content -->
+    <div class="w-full">
+      <div class="p-4 sm:p-6 space-y-4 sm:space-y-6">
+        <!-- your content goes here ... -->
+        <div
+          class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">
+          <div
+            class="h-80 overflow-y-auto p-4 md:p-5 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
+            <h3 class="text-lg font-bold text-gray-800 dark:text-white">
+              Tabel Data Guru
+            </h3>
+            <div id="table"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Content -->
+    <script>
+      const container = document.querySelector('#table');
+
+      const hot = new Handsontable(container, {
+        data: [
+          ['', 'Tesla', 'Volvo', 'Toyota', 'Ford'],
+          ['2019', 10, 11, 12, 13],
+          ['2020', 20, 11, 14, 13],
+          ['2021', 30, 15, 12, 13]
+        ],
+        rowHeaders: true,
+        colHeaders: true,
+        height: 'auto',
+        autoWrapRow: true,
+        autoWrapCol: true,
+        licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
+      });
+
+    </script>
+
+    <!-- include footer -->
+    <%- include('partials/footer') %>

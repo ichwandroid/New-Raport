@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html class="h-full bg-gray-50">
+  <head>
+    <title>Data Siswa - Sistem Raport</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/css/output.css" rel="stylesheet" />
+  </head>
+
+  <body class="h-full">
+    <div class="min-h-full">
+      <%- include('partials/header', { currentPage: 'data-siswa', user: user })
+      %>
+
+      <header class="bg-white shadow">
+        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <h1 class="text-3xl font-bold tracking-tight text-gray-900">
+            Data Siswa
+          </h1>
+        </div>
+      </header>
+
+      <main>
+        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <!-- Content goes here -->
+          <div
+            id="dataSiswa"
+            class="bg-white overflow-hidden rounded-xl shadow p-6"
+          >
+            <!-- <h3 class="text-xl font-semibold leading-6 text-gray-900">Data Siswa</h3> -->
+            <div class="relative overflow-x-auto sm:rounded-lg">
+              <table
+                class="min-w-full text-sm text-left text-gray-500 dark:text-gray-400"
+              >
+                <thead
+                  class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                >
+                  <tr>
+                    <th scope="col" class="px-6 py-3">NIS</th>
+                    <th scope="col" class="px-6 py-3">NISN</th>
+                    <th scope="col" class="px-6 py-3">NIK</th>
+                    <th scope="col" class="px-6 py-3">Nama Lengkap</th>
+                    <th scope="col" class="px-6 py-3">Kelas</th>
+                    <th scope="col" class="px-6 py-3">Nama Kelas</th>
+                    <th scope="col" class="px-6 py-3">Nama Panggilan</th>
+                    <th scope="col" class="px-6 py-3">Jenis Kelamin</th>
+                    <th scope="col" class="px-6 py-3">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <% siswa.forEach(siswa=> { %>
+                  <tr>
+                    <td class="px-6 py-4"><%= siswa.nis %></td>
+                    <td class="px-6 py-4"><%= siswa.nisn %></td>
+                    <td class="px-6 py-4"><%= siswa.nik %></td>
+                    <td class="px-6 py-4"><%= siswa.namalengkap %></td>
+                    <td class="px-6 py-4"><%= siswa.kelas %></td>
+                    <td class="px-6 py-4"><%= siswa.namakelas %></td>
+                    <td class="px-6 py-4"><%= siswa.namapanggilan %></td>
+                    <td class="px-6 py-4"><%= siswa.jeniskelamin %></td>
+                    <td class="px-6 py-4">
+                      <button class="text-indigo-600 hover:text-indigo-900">
+                        Edit
+                      </button>
+                      <button class="text-red-600 hover:text-red-900">
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                  <!-- Tambahkan data siswa lainnya di sini -->
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
