@@ -20,6 +20,7 @@
   </div>
   <!-- End Breadcrumb -->
 
+
   <!-- include sidebar -->
   <%- include('partials/sidebar') %>
 
@@ -29,17 +30,398 @@
         <!-- your content goes here ... -->
         <div
           class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">
-          <div
-            class="h-80 overflow-y-auto p-4 md:p-5 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white">
-              Tabel Data Guru
-            </h3>
-            <div id="table"></div>
-          </div>
+            <div class="flex flex-col">
+              <div class="-m-1.5 overflow-x-auto">
+                <div class="p-1.5 min-w-full inline-block align-middle">
+                  <div class="border rounded-lg divide-y divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
+                    <div class="py-3 px-4">
+                      <div class="relative max-w-xs">
+                        <label for="hs-table-search" class="sr-only">Search</label>
+                        <input type="text" name="hs-table-search" id="hs-table-search" class="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" placeholder="Search for items">
+                        <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
+                          <svg class="size-4 text-gray-400 dark:text-neutral-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.3-4.3"></path>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="overflow-hidden">
+                      <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
+                        <thead class="bg-gray-50 dark:bg-neutral-700">
+                          <tr>
+                            <th scope="col" class="py-3 px-4 pe-0">
+                              <div class="flex items-center h-5">
+                                <input id="hs-table-search-checkbox-all" type="checkbox" class="border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:bg-neutral-700 dark:border-neutral-500 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
+                                <label for="hs-table-search-checkbox-all" class="sr-only">Checkbox</label>
+                              </div>
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Nama Lengkap</th>
+                            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Username</th>
+                            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Role</th>
+                            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Status</th>
+                            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Kelas</th>
+                            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
+                          <% users.forEach(function(user) { %>
+                          <tr>
+                            <td class="py-3 ps-4">
+                              <div class="flex items-center h-5">
+                                <input id="hs-table-search-checkbox-1" type="checkbox" class="border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
+                                <label for="hs-table-search-checkbox-1" class="sr-only">Checkbox</label>
+                              </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200"><%= user.fullname %></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200"><%= user.username %></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
+                              <span class="font-semibold uppercase inline-flex items-center rounded-md <%=user.role === 'operator'? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700' %> px-2 py-1 text-xs ring-1 ring-inset ring-green-600/20">
+                                <%= user.role %>
+                              </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
+                              <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20">
+                                <%= user.status %>
+                              </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
+                              <span class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-700 ring-1 ring-inset ring-yellow-600/20">
+                                <%= user.kelas %>
+                              </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                              <div class="flex space-x-3">
+                                <a href="https://wa.me/62<%= user.whatsapp %>" target="_blank"
+                                    class="text-green-600 hover:text-green-900">
+                                    <svg class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                      width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                      <path fill="currentColor" fill-rule="evenodd"
+                                        d="M12 4a8 8 0 0 0-6.895 12.06l.569.718-.697 2.359 2.32-.648.379.243A8 8 0 1 0 12 4ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10a9.96 9.96 0 0 1-5.016-1.347l-4.948 1.382 1.426-4.829-.006-.007-.033-.055A9.958 9.958 0 0 1 2 12Z"
+                                        clip-rule="evenodd" />
+                                      <path fill="currentColor"
+                                        d="M16.735 13.492c-.038-.018-1.497-.736-1.756-.83a1.008 1.008 0 0 0-.34-.075c-.196 0-.362.098-.49.291-.146.217-.587.732-.723.886-.018.02-.042.045-.057.045-.013 0-.239-.093-.307-.123-1.564-.68-2.751-2.313-2.914-2.589-.023-.04-.024-.057-.024-.057.005-.021.058-.074.085-.101.08-.079.166-.182.249-.283l.117-.14c.121-.14.175-.25.237-.375l.033-.066a.68.68 0 0 0-.02-.64c-.034-.069-.65-1.555-.715-1.711-.158-.377-.366-.552-.655-.552-.027 0 0 0-.112.005-.137.005-.883.104-1.213.311-.35.22-.94.924-.94 2.16 0 1.112.705 2.162 1.008 2.561l.041.06c1.161 1.695 2.608 2.951 4.074 3.537 1.412.564 2.081.63 2.461.63.16 0 .288-.013.4-.024l.072-.007c.488-.043 1.56-.599 1.804-1.276.192-.534.243-1.117.115-1.329-.088-.144-.239-.216-.43-.308Z" />
+                                    </svg>
+                                  </a>
+                                  <button
+                                  onclick="openEditModal('<%= user.id %>', '<%= user.fullname %>', '<%= user.username %>', '<%= user.whatsapp %>', '<%= user.role %>', '<%= user.kelas %>')"
+                                  class="text-indigo-600 hover:text-indigo-900">
+                                  <svg class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="square" stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z" />
+                                  </svg>
+        
+                                </button>
+                                <button onclick="openChangePasswordModal('<%= user.id %>')"
+                                  class="text-blue-600 hover:text-blue-900">
+                                  <svg class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M10 14v3m4-6V7a3 3 0 1 1 6 0v4M5 11h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z" />
+                                  </svg>
+        
+                                </button>
+                                <form action="/users/delete/<%= user.id %>" method="POST">
+                                  <button type="submit" class="text-red-600 hover:text-red-900"
+                                    onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">
+                                    <svg class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                      width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                    </svg>
+        
+                                  </button>
+                                </form>
+                              </div>
+                            </td>
+                          </tr>
+                          <% }); %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
         </div>
       </div>
     </div>
     <!-- End Content -->
+
+    <!-- Edit User Modal -->
+  <div id="editModal" class="fixed inset-0 z-50 bg-gray-500/75 hidden overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen px-4">
+      <div class="bg-white rounded-lg shadow-lg w-full max-w-md transition-opacity duration-500">
+        <div class="flex justify-between items-center p-4 border-b">
+          <h3 class="text-lg font-medium text-gray-900">Edit User</h3>
+          <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <form action="/users/edit" method="POST" class="p-4">
+          <input type="hidden" id="editUserId" name="id" />
+          <div class="mb-4">
+            <label for="editFullname" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
+            <input type="text" id="editFullname" name="fullname" required class="form-input mt-1 block w-full" />
+          </div>
+          <div class="mb-4">
+            <label for="editUsername" class="block text-sm font-medium text-gray-700">Username</label>
+            <input type="text" id="editUsername" name="username" required class="form-input mt-1 block w-full" />
+          </div>
+          <div class="mb-4">
+            <label for="editWhatsapp" class="block text-sm font-medium text-gray-700">Nomor WhatsApp</label>
+            <input type="text" id="editWhatsapp" name="whatsapp" required class="form-input mt-1 block w-full" />
+          </div>
+          <div class="mb-4">
+            <label for="editRole" class="block text-sm font-medium text-gray-700">Role</label>
+            <select id="editRole" name="role" class="form-select mt-1 block w-full">
+              <option value="operator">Operator</option>
+              <option value="guru">Guru</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <h3 class="mb-4 font-semibold text-gray-900 dark:text-white">Status</h3>
+            <div class="flex items-center me-4">
+              <input id="red-checkbox" type="checkbox" name="status" value="Guru Kelas"
+                class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+              <label for="red-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Guru
+                Kelas</label>
+            </div>
+            <div class="flex items-center me-4">
+              <input id="green-checkbox" type="checkbox" name="status" value="Guru Matematika"
+                class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+              <label for="green-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Guru
+                Matematika</label>
+            </div>
+            <div class="flex items-center me-4">
+              <input id="purple-checkbox" type="checkbox" name="status" value="Guru IPA"
+                class="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+              <label for="purple-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Guru
+                IPA</label>
+            </div>
+            <div class="flex items-center me-4">
+              <input id="teal-checkbox" type="checkbox" name="status" value="Guru IPS"
+                class="w-4 h-4 text-teal-600 bg-gray-100 border-gray-300 rounded focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+              <label for="teal-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Guru
+                IPS</label>
+            </div>
+            <div class="flex items-center me-4">
+              <input id="yellow-checkbox" type="checkbox" name="status" value="Guru Agama"
+                class="w-4 h-4 text-yellow-400 bg-gray-100 border-gray-300 rounded focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+              <label for="yellow-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Guru
+                Agama</label>
+            </div>
+            <div class="flex items-center me-4">
+              <input id="orange-checkbox" type="checkbox" name="status" value="Guru PJOK"
+                class="w-4 h-4 text-orange-500 bg-gray-100 border-gray-300 rounded focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+              <label for="orange-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Guru
+                PJOK</label>
+            </div>
+          </div>
+          <div class="mb-4">
+            <h3 class="mb-4 font-semibold text-gray-900 dark:text-white">Kelas</h3>
+            <ul
+              class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+              <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input id="kelas1A" type="checkbox" name="kelas" value="1A"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="kelas1A"
+                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kelas 1A</label>
+                </div>
+              </li>
+              <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input id="kelas1B" type="checkbox" name="kelas" value="1B"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="kelas1B"
+                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kelas 1B</label>
+                </div>
+              </li>
+              <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input id="kelas1C" type="checkbox" name="kelas" value="1C"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="kelas1C"
+                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kelas 1C</label>
+                </div>
+              </li>
+              <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input id="kelas1D" type="checkbox" name="kelas" value="1D"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="kelas1D"
+                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kelas 1D</label>
+                </div>
+              </li>
+            </ul>
+            <ul
+              class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+              <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input id="kelas2A" type="checkbox" name="kelas" value="2A"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="kelas2A"
+                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kelas 2A</label>
+                </div>
+              </li>
+              <!-- Kelas 2B sampai 6D -->
+              <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input id="kelas2B" type="checkbox" name="kelas" value="2B"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="kelas2B"
+                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kelas 2B</label>
+                </div>
+              </li>
+              <!-- Kelas 2C sampai 6D -->
+              <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input id="kelas2C" type="checkbox" name="kelas" value="2C"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="kelas2C"
+                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kelas 2C</label>
+                </div>
+              </li>
+              <!-- Kelas 2D sampai 6D -->
+              <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input id="kelas2D" type="checkbox" name="kelas" value="2D"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="kelas2D"
+                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kelas 2D</label>
+                </div>
+              </li>
+            </ul>
+            <ul
+              class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+              <!-- Kelas 3A sampai 6D -->
+              <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input id="kelas3A" type="checkbox" name="kelas" value="3A"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="kelas3A"
+                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kelas 3A</label>
+                </div>
+              </li>
+              <!-- Kelas 3B sampai 6D -->
+              <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input id="kelas3B" type="checkbox" name="kelas" value="3B"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="kelas3B"
+                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kelas 3B</label>
+                </div>
+              </li>
+              <!-- Kelas 3C sampai 6D -->
+              <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input id="kelas3C" type="checkbox" name="kelas" value="3C"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="kelas3C"
+                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kelas 3C</label>
+                </div>
+              </li>
+              <!-- Kelas 3D sampai 6D -->
+              <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input id="kelas3D" type="checkbox" name="kelas" value="3D"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="kelas3D"
+                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kelas 3D</label>
+                </div>
+              </li>
+            </ul>
+            <ul
+              class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+              <!-- Kelas 4A sampai 6D -->
+              <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input id="kelas4A" type="checkbox" name="kelas" value="4A"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="kelas4A"
+                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kelas 4A</label>
+                </div>
+              </li>
+              <!-- Kelas 4B sampai 6D -->
+              <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input id="kelas4B" type="checkbox" name="kelas" value="4B"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="kelas4B"
+                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kelas 4B</label>
+                </div>
+              </li>
+              <!-- Kelas 4C sampai 6D -->
+              <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input id="kelas4C" type="checkbox" name="kelas" value="4C"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="kelas4C"
+                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kelas 4C</label>
+                </div>
+              </li>
+              <!-- Kelas 4D sampai 6D -->
+              <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input id="kelas4D" type="checkbox" name="kelas" value="4D"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="kelas4D"
+                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kelas 4D</label>
+                </div>
+              </li>
+            </ul>
+
+
+          </div>
+          <div class="flex justify-end">
+            <button type="button" onclick="closeEditModal()" class="btn-secondary mr-2">
+              Cancel
+            </button>
+            <button type="submit" class="btn-primary">Save</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Change Password Modal -->
+  <div id="changePasswordModal" class="fixed bg-gray-500/75 inset-0 z-50 hidden overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen px-4">
+      <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
+        <div class="flex justify-between items-center p-4 border-b">
+          <h3 class="text-lg font-medium text-gray-900">Change Password</h3>
+          <button onclick="closeChangePasswordModal()" class="text-gray-400 hover:text-gray-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <form action="/users/update-password" method="POST" class="p-4">
+          <input type="hidden" id="changePasswordUserId" name="id" />
+          <div class="mb-4">
+            <label for="newPassword" class="block text-sm font-medium text-gray-700">New Password</label>
+            <input type="password" id="newPassword" name="newPassword" required class="form-input mt-1 block w-full" />
+          </div>
+          <div class="flex justify-end">
+            <button type="button" onclick="closeChangePasswordModal()" class="btn-secondary mr-2">
+              Cancel
+            </button>
+            <button type="submit" class="btn-primary">Change Password</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
     
     <!-- include footer -->
     <%- include('partials/footer') %>
