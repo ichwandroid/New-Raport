@@ -23,11 +23,19 @@
 
     function openChangePasswordModal(userId) {
       document.getElementById("changePasswordUserId").value = userId;
-      document.getElementById("changePasswordModal").classList.remove("hidden");
+      const modal = document.getElementById("changePasswordModal");
+      modal.classList.remove("hidden");
+      setTimeout(() => {
+        modal.classList.remove("translate-y-full");
+      }, 10); // Delay sedikit untuk memulai transisi
     }
 
     function closeChangePasswordModal() {
-      document.getElementById("changePasswordModal").classList.add("hidden");
+      const modal = document.getElementById("changePasswordModal");
+      modal.classList.add("translate-y-full");
+      setTimeout(() => {
+        modal.classList.add("hidden");
+      }, 300); // Waktu yang sama dengan durasi transisi
     }
   </script>
 
