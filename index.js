@@ -175,7 +175,7 @@ app.get("/data-siswa", ensureAuthenticated, async (req, res) => {
         });
 
         const rows = response.data.values || [];
-        const siswa = rows.map(row => ({
+        let siswa = rows.map(row => ({
             nis: row[0],
             nisn: row[1],
             nik: row[2],
@@ -185,6 +185,26 @@ app.get("/data-siswa", ensureAuthenticated, async (req, res) => {
             namapanggilan: row[6],
             jeniskelamin: row[7],
         }));
+
+        // Filter data siswa berdasarkan role dan kelas user
+        if (req.session.user.role === 'guru') {
+            // Ambil data guru untuk mendapatkan kelas yang diajar
+            const guruResponse = await sheets.spreadsheets.values.get({
+                spreadsheetId: SPREADSHEET_ID,
+                range: "Users!A2:H",
+            });
+            
+            const guruRows = guruResponse.data.values || [];
+            const currentGuru = guruRows.find(row => row[0] === req.session.user.id);
+            
+            if (currentGuru && currentGuru[7]) { // index 7 adalah kolom kelas
+                const kelasGuru = currentGuru[7].split(", "); // Split jika ada multiple kelas
+                siswa = siswa.filter(s => kelasGuru.includes(s.kelas));
+            } else {
+                siswa = []; // Jika guru tidak memiliki kelas, tampilkan array kosong
+            }
+        }
+        // Operator dapat melihat semua data siswa
 
         res.render("dataSiswa", {
             user: req.session.user,
