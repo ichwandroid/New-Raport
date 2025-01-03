@@ -2609,15 +2609,6 @@ select {
     --tw-text-opacity: 1;
     color: rgb(127 29 29 / var(--tw-text-opacity, 1));
   }
-
-  .hover\:text-white:hover {
-    --tw-text-opacity: 1;
-    color: rgb(255 255 255 / var(--tw-text-opacity, 1));
-  }
-
-  .hover\:opacity-100:hover {
-    opacity: 1;
-  }
 }
 
 .focus\:z-10:focus {
@@ -2637,10 +2628,6 @@ select {
 .focus\:text-gray-500:focus {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity, 1));
-}
-
-.focus\:opacity-100:focus {
-  opacity: 1;
 }
 
 .focus\:outline-none:focus {

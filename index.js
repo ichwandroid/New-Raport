@@ -217,12 +217,45 @@ app.get("/data-siswa", ensureAuthenticated, async (req, res) => {
     }
 });
 
+// ambil data sumpa
+app.get("/data-sum-pa", ensureAuthenticated, async (req, res) => {
+    try {
+        const response = await sheets.spreadsheets.values.get({
+            spreadsheetId: SPREADSHEET_ID,
+            range: "Data Siswa!A2:H",
+        });
+
+        const rows = response.data.values || [];
+        let siswa = rows.map(row => ({
+            nis: row[0],
+            nisn: row[1],
+            nik: row[2],
+            namalengkap: row[3],
+            kelas: row[4],
+            namakelas: row[5],
+            namapanggilan: row[6],
+            jeniskelamin: row[7],
+        }));
+
+        // Kirim data siswa ke tampilan dataSumPa
+        res.render("dataSumPa", {
+            user: req.session.user,
+            currentPage: 'data-sum-pa',
+            siswa: siswa // Menambahkan data siswa ke render
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error loading data siswa.");
+    }
+});
+
 app.get("/logout", (req, res) => {
     req.session.destroy((err) => {
         if (err) return res.status(500).send("Error logging out.");
         res.redirect("/login");
     });
 });
+
 
 // Edit pengguna
 app.post("/users/edit", ensureAuthenticated, async (req, res) => {
