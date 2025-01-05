@@ -1,5 +1,5 @@
 <!-- include header -->
-<%- include('partials/header', { currentPage: 'data-siswa' , user: user }) %>
+<%- include('partials/header', { currentPage: 'data-sum-paibp' , user: user }) %>
 
   <!-- breadcrumb -->
   <ol class="ms-3 flex items-center whitespace-nowrap">
@@ -12,7 +12,7 @@
       </svg>
     </li>
     <li class="text-sm font-semibold text-gray-800 truncate dark:text-neutral-400" aria-current="page">
-      Data Siswa
+      Data Nilai Sumatif Pendidikan Agama dan Ilmu Budi Pekerti
     </li>
   </ol>
   <!-- End Breadcrumb -->
@@ -80,8 +80,7 @@
         <!-- your content goes here ... -->
         <div
         class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">
-        <!-- Handsontable container -->
-        <div id="dataSiswaTable" class="handsontable"></div>
+        test
         </div>
         <!-- end your content -->
       </div>
@@ -109,32 +108,4 @@
       }, 500);
     }
   }
-</script>
-<script>
-    // Data siswa dari server
-    const siswaData = <%- JSON.stringify(siswa) %>;
-
-    // Handsontable settings
-    const container = document.getElementById('dataSiswaTable');
-    const hot = new Handsontable(container, {
-        data: siswaData,
-        colHeaders: ['NIS', 'NISN', 'Nama Lengkap', 'Nama Panggilan'],
-        columns: [
-            { data: 'nis' },
-            { data: 'nisn' },
-            { data: 'namalengkap' },
-            { data: 'namapanggilan' }
-        ],
-        licenseKey: 'non-commercial-and-evaluation', // Set license key
-        rowHeaders: true,
-        filters: true,
-        dropdownMenu: true,
-        width: '100%',
-        height: 'auto',
-        stretchH: 'all',
-        autoWrapRow: true,
-        manualColumnResize: true,
-        manualRowResize: true,
-        contextMenu: true,
-    });
 </script>

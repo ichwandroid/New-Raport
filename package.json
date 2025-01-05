@@ -20,7 +20,7 @@
     "express": "^4.21.2",
     "express-session": "^1.18.1",
     "googleapis": "^144.0.0",
-    "handsontable": "^15.0.0",
+    "nodemon": "^3.1.9",
     "preline": "^2.6.0"
   },
   "devDependencies": {
