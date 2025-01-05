@@ -1,54 +1,140 @@
-<!DOCTYPE html>
-<html class="h-full bg-gray-50">
+<!-- include header -->
+<%- include('partials/header', { currentPage: 'data-siswa' , user: user }) %>
 
-<head>
-    <title>Data Siswa - Sistem Raport</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/css/output.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/handsontable@latest/dist/handsontable.full.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/handsontable@latest/dist/handsontable.full.min.js"></script>
-</head>
-
-<body class="h-full">
-    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-        <div class="sm:mx-auto sm:w-full sm:max-w-2xl">
-            <h2 class="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Data Siswa</h2>
+  <!-- breadcrumb -->
+  <ol class="ms-3 flex items-center whitespace-nowrap">
+    <li class="flex items-center text-sm text-gray-800 dark:text-neutral-400">
+      Dashboard
+      <svg class="shrink-0 mx-3 overflow-visible size-2.5 text-gray-400 dark:text-neutral-500" width="16" height="16"
+        viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 1L10.6869 7.16086C10.8637 7.35239 10.8637 7.64761 10.6869 7.83914L5 14" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </li>
+    <li class="text-sm font-semibold text-gray-800 truncate dark:text-neutral-400" aria-current="page">
+      Data Siswa
+    </li>
+  </ol>
+  <!-- End Breadcrumb -->
+  </div>
+  <% if (user.role === 'guru') { %>
+    <div id="notification" class="fixed bottom-0 end-0 z-[60] sm:max-w-xl w-full mx-auto p-6">
+      <div class="bg-blue-500 text-white rounded-lg shadow-lg p-4">
+        <div class="flex justify-between items-center">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm">
+                Menampilkan data siswa untuk kelas yang Anda ajar
+              </p>
+            </div>
+          </div>
+          <!-- Tombol close -->
+          <button onclick="closeNotification()" class="text-white hover:text-gray-100">
+            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </button>
         </div>
-
-        <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-2xl">
-            <!-- Handsontable container -->
-            <div id="dataSiswaTable" class="handsontable"></div>
+      </div>
+    </div>
+  <% } else { %>
+    <div id="notification" class="fixed bottom-0 end-0 z-[60] sm:max-w-xl w-full mx-auto p-6">
+      <div class="bg-green-500 text-white rounded-lg shadow-lg p-4">
+        <div class="flex justify-between items-center">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm">
+                Menampilkan semua data siswa
+              </p>
+            </div>
+          </div>
+          <!-- Tombol close -->
+          <button onclick="closeNotification()" class="text-white hover:text-gray-100">
+            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </button>
         </div>
+      </div>
+    </div>
+  <% } %>
+  </div>
+  <!-- End Breadcrumb -->
+
+  <!-- include sidebar -->
+  <%- include('partials/sidebar') %>
+
+    <!-- Content -->
+    <div class="w-full">
+      <div class="p-4 sm:p-6 space-y-4 sm:space-y-6">
+        <!-- your content goes here ... -->
+        <div
+        class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">
+        <!-- Handsontable container -->
+        <div id="dataSiswaTable" class="handsontable"></div>
+        </div>
+        <!-- end your content -->
+      </div>
     </div>
 
-    <script>
-        // Data siswa dari server
-        const siswaData = <%- JSON.stringify(siswa) %>;
+    <!-- include footer -->
+    <%- include('partials/footer') %>
 
-        // Handsontable settings
-        const container = document.getElementById('dataSiswaTable');
-        const hot = new Handsontable(container, {
-            data: siswaData,
-            colHeaders: ['NIS', 'NISN', 'Nama Lengkap', 'Nama Panggilan'],
-            columns: [
-                { data: 'nis' },
-                { data: 'nisn' },
-                { data: 'namalengkap' },
-                { data: 'namapanggilan' }
-            ],
-            licenseKey: 'non-commercial-and-evaluation', // Set license key
-            rowHeaders: true,
-            filters: true,
-            dropdownMenu: true,
-            width: '100%',
-            height: 'auto',
-            stretchH: 'all',
-            autoWrapRow: true,
-            manualColumnResize: true,
-            manualRowResize: true,
-            contextMenu: true,
-        });
-    </script>
-</body>
+<script>
+  // Auto close notification setelah 5 detik
+  setTimeout(() => {
+    closeNotification();
+  }, 5000);
 
-</html>
+  // Fungsi untuk menutup notification
+  function closeNotification() {
+    const notification = document.getElementById('notification');
+    if (notification) {
+      // Tambahkan class untuk animasi fade out
+      notification.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+      
+      // Hapus elemen setelah animasi selesai
+      setTimeout(() => {
+        notification.remove();
+      }, 500);
+    }
+  }
+</script>
+<script>
+    // Data siswa dari server
+    const siswaData = <%- JSON.stringify(siswa) %>;
+
+    // Handsontable settings
+    const container = document.getElementById('dataSiswaTable');
+    const hot = new Handsontable(container, {
+        data: siswaData,
+        colHeaders: ['NIS', 'NISN', 'Nama Lengkap', 'Nama Panggilan'],
+        columns: [
+            { data: 'nis' },
+            { data: 'nisn' },
+            { data: 'namalengkap' },
+            { data: 'namapanggilan' }
+        ],
+        licenseKey: 'non-commercial-and-evaluation', // Set license key
+        rowHeaders: true,
+        filters: true,
+        dropdownMenu: true,
+        width: '100%',
+        height: 'auto',
+        stretchH: 'all',
+        autoWrapRow: true,
+        manualColumnResize: true,
+        manualRowResize: true,
+        contextMenu: true,
+    });
+</script>

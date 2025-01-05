@@ -37,7 +37,7 @@ app.use(
 
 // Google Sheets setup
 const auth = new google.auth.GoogleAuth({
-    keyFile: "../connect.json",
+    keyFile: "connect.json",
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
