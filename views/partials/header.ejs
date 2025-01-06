@@ -36,6 +36,42 @@
         modal.classList.add("hidden");
       }, 300); // Waktu yang sama dengan durasi transisi
     }
+
+    function openAddCPPAIBP() {
+      const modal = document.getElementById("addCPPAIBPModal");
+      modal.classList.remove("hidden");
+      setTimeout(() => {
+        modal.classList.remove("translate-y-full");
+      }, 10); // Delay sedikit untuk memulai transisi
+    }
+
+    function closeAddCPPAIBP() {
+      const modal = document.getElementById("addCPPAIBPModal");
+      modal.classList.add("translate-y-full");
+      setTimeout(() => {
+        modal.classList.add("hidden");
+      }, 300); // Waktu yang sama dengan durasi transisi
+    }
+
+    function openEditCPPAIBP(idcppaibp, nocppaibp, deskripsicppaibp, kelascppaibp) {
+      document.getElementById("editIdcppaibp").value = idcppaibp;
+      document.getElementById("editNocppaibp").value = nocppaibp;
+      document.getElementById("editDeskripsicppaibp").value = deskripsicppaibp;
+      document.getElementById("editKelascppaibp").value = kelascppaibp;
+      const modal = document.getElementById("editCPPAIBPModal");
+      modal.classList.remove("hidden");
+      setTimeout(() => {
+        modal.classList.remove("translate-y-full");
+      }, 10); // Delay sedikit untuk memulai transisi
+    }
+
+    function closeEditCPPAIBP() {
+      const modal = document.getElementById("editCPPAIBPModal");
+      modal.classList.add("translate-y-full");
+      setTimeout(() => {
+        modal.classList.add("hidden");
+      }, 300); // Waktu yang sama dengan durasi transisi
+    }
   </script>
 
 </head>

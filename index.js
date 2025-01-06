@@ -37,7 +37,7 @@ app.use(
 
 // Google Sheets setup
 const auth = new google.auth.GoogleAuth({
-    keyFile: "connect.json",
+    keyFile: "../connect.json",
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
@@ -375,53 +375,42 @@ app.listen(PORT, () => {
 });
 
 
-// ====================================================================================================
+// ==================================CONFIG CP PAIBP==================================================================
 
-
-// ambil data sumpa
-app.get("/data-sum-paibp", ensureAuthenticated, async (req, res) => {
-    try {
-        const response = await sheets.spreadsheets.values.get({
-            spreadsheetId: SPREADSHEET_ID,
-            range: "Data Siswa!A2:H",
-        });
-
-        const rows = response.data.values || [];
-        let siswa = rows.map(row => ({
-            nis: row[0],
-            nisn: row[1],
-            nik: row[2],
-            namalengkap: row[3],
-            kelas: row[4],
-            namakelas: row[5],
-            namapanggilan: row[6],
-            jeniskelamin: row[7],
-        }));
-
-        // Kirim data siswa ke tampilan dataSumPAIBP
-        res.render("dataSumPAIBP", {
-            user: req.session.user,
-            currentPage: 'data-sum-paibp',
-            siswa: siswa // Menambahkan data siswa ke render
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Error loading data siswa.");
-    }
-});
-
+// ambil data cp paibp
 app.get("/data-cp-paibp", ensureAuthenticated, async (req, res) => {
     try {
         const response = await sheets.spreadsheets.values.get({
             spreadsheetId: SPREADSHEET_ID,
-            range: "CP PAIBP!A2:B",
+            range: "CP PAIBP!A2:D",
         });
 
         const rows = response.data.values || [];
         let siswa = rows.map(row => ({
-            idcp: row[0],
-            namacp: row[1],    
+            idcppaibp: row[0],
+            nocppaibp: row[1],
+            kelascppaibp: row[2],    
+            deskripsicppaibp: row[3],    
     }));
+
+        // Filter data cp paibp berdasarkan role dan kelas user
+        if (req.session.user.role === 'guru') {
+            // Ambil data guru untuk mendapatkan kelas yang diajar
+            const guruResponse = await sheets.spreadsheets.values.get({
+                spreadsheetId: SPREADSHEET_ID,
+                range: "Users!A2:H",
+            });
+
+            const guruRows = guruResponse.data.values || [];
+            const currentGuru = guruRows.find(row => row[0] === req.session.user.id);
+            
+            if (currentGuru && currentGuru[7]) { // index 7 adalah kolom kelas
+                const kelasGuru = currentGuru[7].split(", "); // Split jika ada multiple kelas
+                siswa = siswa.filter(s => kelasGuru.includes(s.kelascppaibp));
+            } else {
+                siswa = []; // Jika guru tidak memiliki kelas, tampilkan array kosong
+            }
+        }
 
         // Kirim data cp-paibp ke tampilan dataCPPAIBP
         res.render("dataCPPAIBP", {
@@ -433,4 +422,100 @@ app.get("/data-cp-paibp", ensureAuthenticated, async (req, res) => {
         console.error(error);
         res.status(500).send("Error loading data cp paibp.");
     }
-    });
+});
+
+// Tambahkan data cp paibp
+app.post("/data-cp-paibp/add", ensureAuthenticated, async (req, res) => {
+    const { deskripsicppaibp, kelascppaibp, nocppaibp } = req.body;
+
+    try {
+        const response = await sheets.spreadsheets.values.append({
+            spreadsheetId: SPREADSHEET_ID,
+            range: "CP PAIBP!A:D",
+            valueInputOption: "USER_ENTERED",
+            requestBody: {
+                values: [[`CP${Date.now()}`, nocppaibp, kelascppaibp, deskripsicppaibp]], // null untuk idcp yang akan diisi otomatis
+            },
+        });
+
+        res.redirect("/data-cp-paibp");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error adding deskripsicppaibp.");
+    }
+});
+
+// Edit cp paibp
+app.post("/data-cp-paibp/edit", ensureAuthenticated, async (req, res) => {
+    const { idcppaibp, deskripsicppaibp, kelascppaibp, nocppaibp } = req.body;
+
+    try {
+        const response = await sheets.spreadsheets.values.get({
+            spreadsheetId: SPREADSHEET_ID,
+            range: "CP PAIBP!A:D",
+        });
+
+        const rows = response.data.values || [];
+        const rowIndex = rows.findIndex(row => row[0] === idcppaibp);
+
+        if (rowIndex !== -1) {
+            rows[rowIndex][1] = nocppaibp; // Update nocppaibp
+            rows[rowIndex][2] = kelascppaibp; // Update kelascppaibp
+            rows[rowIndex][3] = deskripsicppaibp; // Update deskripsicppaibp
+
+            await sheets.spreadsheets.values.update({
+                spreadsheetId: SPREADSHEET_ID,
+                range: `CP PAIBP!A${rowIndex + 1}:D${rowIndex + 1}`,
+                valueInputOption: "USER_ENTERED",
+                requestBody: {
+                    values: [rows[rowIndex]],
+                },
+            });
+        }
+
+        res.redirect("/data-cp-paibp");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error editing deskripsicppaibp.");
+    }
+});
+
+// Hapus cp paibp
+app.post("/data-cp-paibp/delete/:idcppaibp", ensureAuthenticated, async (req, res) => {
+    const { idcppaibp } = req.params;
+    
+    try {
+        const response = await sheets.spreadsheets.values.get({
+            spreadsheetId: SPREADSHEET_ID,
+            range: "CP PAIBP!A:D",
+        });
+
+        const rows = response.data.values || [];
+        const rowIndex = rows.findIndex(row => row[0] === idcppaibp);
+
+        if (rowIndex !== -1) {
+            rows.splice(rowIndex, 1);
+
+            await sheets.spreadsheets.values.clear({
+                spreadsheetId: SPREADSHEET_ID,
+                range: "CP PAIBP!A:D",
+            });
+
+            if (rows.length > 0) {
+                await sheets.spreadsheets.values.update({
+                    spreadsheetId: SPREADSHEET_ID,
+                    range: "CP PAIBP!A:D",
+                    valueInputOption: "USER_ENTERED",
+                    requestBody: {
+                        values: rows,
+                    },
+                });
+            }
+        }
+
+        res.redirect("/data-cp-paibp");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error deleting cp paibp.");
+    }
+});

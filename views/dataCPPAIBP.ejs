@@ -17,7 +17,7 @@
   </ol>
   <!-- End Breadcrumb -->
   </div>
-  
+
   </div>
   <!-- End Breadcrumb -->
 
@@ -36,7 +36,7 @@
                     <div class="p-1.5 min-w-full inline-block align-middle">
                         <div class="border rounded-lg divide-y divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
                             <div class="py-3 px-4">
-                                <p>Semester Ganjil</p>
+                                <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="openAddCPPAIBP()">Tambah Capaian Pembelajaran</button>
                             </div>
                             <div class="overflow-hidden">
                                 <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
@@ -51,7 +51,10 @@
                                             </th>
                                             <th scope="col"
                                                 class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
-                                                No</th>
+                                                No Capaian</th>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                                                Kelas</th>
                                             <th scope="col"
                                                 class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                                                 INPUT DESKRIPSI: CAPAIAN PEMBELAJARAN / TUJUAN PEMBELAJARAN / LINGKUP MATERI
@@ -73,11 +76,23 @@
                                                 </td>
                                                 <td
                                                     class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                                                    <%= user.idcp %>
+                                                    <%= user.nocppaibp %>
                                                 </td>
                                                 <td
                                                     class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                                                    <%= user.namacp %>
+                                                    <%= user.kelascppaibp %>
+                                                </td>
+                                                <td
+                                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                                    <%= user.deskripsicppaibp %>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                                                    <div class="flex space-x-3">
+                                                        <button class="text-blue-600 hover:underline" onclick="openEditCPPAIBP('<%= user.idcppaibp %>', '<%= user.nocppaibp %>', '<%= user.deskripsicppaibp %>', '<%= user.kelascppaibp %>')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-pen-line"><path d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"/><path d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><path d="M8 18h1"/></svg></button>
+                                                        <form action="/data-cp-paibp/delete/<%= user.idcppaibp %>" method="POST">
+                                                            <button type="submit" class="text-red-600 hover:underline"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6"/><path d="M14 11v6"/></svg></button>
+                                                        </form>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <% }); %>
@@ -92,6 +107,137 @@
 
         <!-- end your content -->
       </div>
+    </div>
+
+    <!-- Form untuk menambah namacp -->
+    <div id="addCPPAIBPModal"
+        class="fixed bg-gray-500/75 inset-0 z-50 hidden overflow-y-auto transition-transform transform translate-y-full">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
+                <div class="flex justify-between items-center p-4 border-b">
+                    <h3 class="text-lg font-medium text-gray-900">Tambah Capaian</h3>
+                    <button onclick="closeAddCPPAIBP()" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+                <form action="/data-cp-paibp/add" method="POST" class="p-4">
+                    <input type="hidden" id="addCPPAIBPUserId" name="idcppaibp" />
+                    <div class="mb-4">
+                        <label for="newNocp" class="block text-sm font-medium text-gray-700">No Capaian</label>
+                        <select id="newNocp" name="nocppaibp" required class="form-input mt-1 block w-full">
+                            <option value="CP 1">CP 1</option>
+                            <option value="CP 2">CP 2</option>
+                            <option value="CP 3">CP 3</option>
+                            <option value="CP 4">CP 4</option>
+                            <option value="CP 5">CP 5</option>
+                            <option value="CP 6">CP 6</option>
+                            <option value="CP 7">CP 7</option>
+                            <option value="CP 8">CP 8</option>
+                            <option value="CP 9">CP 9</option>
+                            <option value="CP 10">CP 10</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="newNamacp" class="block text-sm font-medium text-gray-700">Deskripsi Capaian</label>
+                        <input type="text" id="newNamacp" name="deskripsicppaibp" required class="form-input mt-1 block w-full" />
+                    </div>
+                    <div class="mb-4">
+                        <label for="newKelascp" class="block text-sm font-medium text-gray-700">Kelas Capaian</label>
+                        <select id="newKelascp" name="kelascppaibp" required class="form-input mt-1 block w-full">
+                            <option value="1A">1A</option>
+                            <option value="1B">1B</option>
+                            <option value="1C">1C</option>
+                            <option value="1D">1D</option>
+                            <option value="2A">2A</option>
+                            <option value="2B">2B</option>
+                            <option value="2C">2C</option>
+                            <option value="2D">2D</option>
+                            <option value="3A">3A</option>
+                            <option value="3B">3B</option>
+                            <option value="3C">3C</option>
+                            <option value="3D">3D</option>
+                            <option value="4A">4A</option>
+                            <option value="4B">4B</option>
+                            <option value="4C">4C</option>
+                            <option value="4D">4D</option>
+                        </select>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="button" onclick="closeAddCPPAIBP()" class="btn-secondary mr-2">
+                            Batal
+                        </button>
+                        <button type="submit" class="btn-primary">Tambah</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for editing -->
+    <div id="editCPPAIBPModal" class="fixed inset-0 z-50 bg-gray-500/75 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="bg-white rounded-lg shadow-lg w-full max-w-md transition-opacity duration-500">
+                <div class="flex justify-between items-center p-4 border-b">
+                    <h3 class="text-lg font-medium text-gray-900">Edit Capaian</h3>
+                    <button onclick="closeEditCPPAIBP()" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+                <form id="editForm" method="POST" action="/data-cp-paibp/edit" class="p-4">
+                    <input type="hidden" name="idcppaibp" id="editIdcppaibp" />
+                    <div class="mb-4">
+                        <label for="editNocppaibp" class="block text-sm font-medium text-gray-700">No Capaian:</label>
+                        <select id="editNocppaibp" name="nocppaibp" required class="form-input mt-1 block w-full">
+                            <option value="CP 1">CP 1</option>
+                            <option value="CP 2">CP 2</option>
+                            <option value="CP 3">CP 3</option>
+                            <option value="CP 4">CP 4</option>
+                            <option value="CP 5">CP 5</option>
+                            <option value="CP 6">CP 6</option>
+                            <option value="CP 7">CP 7</option>
+                            <option value="CP 8">CP 8</option>
+                            <option value="CP 9">CP 9</option>
+                            <option value="CP 10">CP 10</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="editDeskripsicppaibp" class="block text-sm font-medium text-gray-700">Deskripsi Capaian:</label>
+                        <input type="text" name="deskripsicppaibp" id="editDeskripsicppaibp" required class="form-input mt-1 block w-full" />
+                    </div>
+                    <div class="mb-4">
+                        <label for="editKelascppaibp" class="block text-sm font-medium text-gray-700">Kelas Capaian:</label>
+                        <select id="editKelascppaibp" name="kelascppaibp" required class="form-input mt-1 block w-full">
+                            <option value="1A">1A</option>
+                            <option value="1B">1B</option>
+                            <option value="1C">1C</option>
+                            <option value="1D">1D</option>
+                            <option value="2A">2A</option>
+                            <option value="2B">2B</option>
+                            <option value="2C">2C</option>
+                            <option value="2D">2D</option>
+                            <option value="3A">3A</option>
+                            <option value="3B">3B</option>
+                            <option value="3C">3C</option>
+                            <option value="3D">3D</option>
+                            <option value="4A">4A</option>
+                            <option value="4B">4B</option>
+                            <option value="4C">4C</option>
+                            <option value="4D">4D</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary">Simpan</button>
+                    <button type="button" class="btn-secondary" onclick="closeEditCPPAIBP()">Batal</button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- include footer -->
