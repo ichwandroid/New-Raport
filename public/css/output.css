@@ -1188,6 +1188,10 @@ select {
   margin-inline-start: auto !important;
 }
 
+.-mb-0\.5 {
+  margin-bottom: -0.125rem;
+}
+
 .-mr-2 {
   margin-right: -0.5rem;
 }
@@ -1282,6 +1286,10 @@ select {
 
 .mt-7 {
   margin-top: 1.75rem;
+}
+
+.-mb-0 {
+  margin-bottom: -0px;
 }
 
 .block {
@@ -1689,6 +1697,12 @@ select {
   --tw-space-x-reverse: 0;
   margin-right: calc(1rem * var(--tw-space-x-reverse));
   margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-x-6 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(1.5rem * var(--tw-space-x-reverse));
+  margin-left: calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
 .space-y-1 > :not([hidden]) ~ :not([hidden]) {
